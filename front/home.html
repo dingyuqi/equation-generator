@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<title>My Web Page</title>
+ <meta charset="UTF-8">
+	<style>
+		body {
+			background-image: url("../resource/blue_white.svg");
+			background-size: cover;
+			background-repeat: no-repeat;
+		}
+
+		.note{
+			font-size: 15px;
+			color: darkgray;
+		}
+		.container {
+			margin: auto;
+			width: 90%;
+			padding-top: 50px;
+		}
+
+		.box {
+			display: inline-block;
+			vertical-align: top;
+			width: 30%;
+			text-align: center;
+			margin: 10px;
+			padding: 20px;
+			background-color: white;
+			border-radius: 10px;
+			box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+			cursor: pointer;
+		}
+
+		.logo {
+			height: 100px;
+			margin-bottom: 20px;
+		}
+
+		.description {
+			font-size: 20px;
+			color: #555;
+		}
+
+		.animation {
+			transition: transform 0.3s ease-in-out;
+		}
+
+		.box:hover .animation{
+			transform: scale(1.1);
+		}
+
+	</style>
+
+</head>
+<body>
+	<div class="container">
+		<h1>Home</h1>
+		<div class="box">
+			<img class="logo animation" src="../resource/archive-add.png" alt="new">
+			<p class="description">新建作业</p>
+			<p class="note">使用已经创建过的模板生成一份新的算数作业</p>
+		</div>
+		<div class="box">
+			<img class="logo animation" src="../resource/archive-upload.png" alt="upload">
+			<p class="description">上传算式</p>
+			<p class="note">如果您已经有准备好的算式, 请点击此处导入</p>
+		</div>
+		<div class="box">
+			<img class="logo animation" src="../resource/archive-favourite.png" alt="templet">
+			<p class="description">建立模板</p>
+			<p class="note">如果你对于生成的算数作业有相关的模板要求, 请上传一份excel</p>
+		</div>
+	</div>
+
+	<script>
+		var boxes = document.getElementsByClassName("box");
+		for (var i = 0; i < boxes.length; i++) {
+			boxes[i].addEventListener("mouseover", function() {
+				this.classList.add("animation");
+			});
+			boxes[i].addEventListener("mouseout", function() {
+				this.classList.remove("animation");
+			});
+		}
+	</script>
+
+</body>
+</html>
