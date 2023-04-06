@@ -1,0 +1,2 @@
+# auto_working_equation
+给江老师定制的算式题目生成器
