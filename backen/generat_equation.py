@@ -15,7 +15,7 @@ def generate_equations(num_equations, min_num, max_num, num_terms=2):
         - equations (list): a list of randomly generated equations
     """
     equations = []
-    operators = ["+", "-", "*", "÷"]
+    operators = ["+", "-", "×", "÷"]
 
     for i in range(num_equations):
         equation = str(random.randint(min_num, max_num))
