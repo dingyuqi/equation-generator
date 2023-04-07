@@ -283,68 +283,22 @@
         example.value = `${expression}`;
     }
 
-    function createXMLHTTPObject() {
-        var XMLhttpFactories = [//兼容不同浏览器和版本的创建函数数组
-            function () {
-                return new XMLHttpRequest()
-            },
-            function () {
-                return new ActiveXObject("Msxml2.XMLHTTP")
-            },
-            function () {
-                return new ActiveXObject("Msxml3.XMLHTTP")
-            },
-            function () {
-                return new ActiveXObject("Microsoft.XMLHTTP")
-            },
-        ];
-
-        var xmlhttp = false;
-        for (var i = 0; i < XMLhttpFactories.length; i++) {
-            try {
-                xmlhttp = XMLhttpFactories[i]();
-                break; //如果成功，则终止循环
-            } catch (e) {
-                continue; //如果异常，则继续使用下一个创建函数
-            }
-        }
-        return xmlhttp;
-    }
-
-    function run() {
-        console.log("==================")
-        const XHR = createXMLHTTPObject();
-        //装载result
-        const data = {"file_path": file.value};
-        // 配置请求
-        XHR.open('POST', 'http://127.0.0.1:5000/run', false);
-        // HTTP头
-        XHR.setRequestHeader('content-type', 'application/json;charset=utf-8');  //先open再设置请求头
-        // 发送请求
-        XHR.send(JSON.stringify(data));
-        console.log(data)
-        //定义接收到响应后的处理：每当 readyState 改变时，就会触发 onreadystatechange 事件
-        XHR.onreadystatechange = function () {
-            //若响应完成且请求成功
-            if (XHR.status === 200) {
-                alert("这是弹出框提示文本")
-            }
-        };
-
-    }
-    function run_test(){
+    function run_test() {
         const data = {"file_path": file.value};
 
         const send_data = JSON.stringify(data);
+        console.log(send_data)
 
-         $.ajax({
-                async:false,    // 这个需要写上
-                url: "http://127.0.0.1:5000/run",
-                type: "POST",
-                data: send_data,
-                dataType: "json",
-                success: function (result) { alert(result.name) }
-            })
+        $.ajax({
+            async: false,
+            url: "http://127.0.0.1:5000/run",
+            type: "POST",
+            data: send_data,
+            dataType: "json",
+            success: function (result) {
+                alert(result.values)
+            }
+        })
     }
 
     // Example button click event listener
