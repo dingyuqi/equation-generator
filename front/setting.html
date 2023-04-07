@@ -23,6 +23,14 @@
             border-radius: 10px;
         }
 
+        #file {
+            width: 500px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
         label {
             display: inline-block;
             margin-bottom: 5px;
@@ -48,6 +56,19 @@
             font-size: 15px;
             color: darkgray;
             margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 25px;
+            color: #555555;
+            margin-bottom: 5px;
+        }
+
+        .mini_title {
+            font-size: 15px; /* 文字大小 */
+            background-color: lightgray; /* 背景颜色 */
+            border-radius: 5px;
+            padding: 5px;
         }
 
         .box {
@@ -132,8 +153,10 @@
 <h1>算式生成配置</h1>
 <div id="calculator" class="box">
     <form>
-        <label for="range">计算范围:</label>
-        <select id="range">
+        <p class="subtitle">算式的相关配置</p>
+        <br/><br/>
+        <label for="range" class="mini_title">计算范围</label>
+        <select id="range" style="margin-left: 5px">
             <option value="10">10以内</option>
             <option value="100">100以内</option>
             <option value="1000">1000以内</option>
@@ -143,6 +166,8 @@
         <br/>
         <br/>
 
+
+        <p class="mini_title" style="width: 60px">运算符号</p>
         <p class="note">请选择生成算式中包含的运算符号 (可多选)</p>
         <label>
             <input type="checkbox" checked="checked" name="operator" value="+" id="add"/>
@@ -170,25 +195,38 @@
         <br/>
         <br/>
 
-        <label for="terms">算式的项的数量:</label>
-        <input type="number" id="terms" min="2" max="10" value="2"/>
+        <label for="terms" class="mini_title">项数量</label>
+        <input type="number" id="terms" min="2" max="10" value="2" style="margin-left: 5px"/>
 
         <br/>
         <br/>
         <br/>
 
-        <label for="example">示例:</label>
+        <label for="example" class="mini_title">示例</label>
         <label for="exampleText"></label><input type="text" readonly="readonly" id="exampleText"
-                                                style="width:180px;height:30px;margin-left: 5px;margin-right: 15px"/>
+                                                style="width:180px;height:20px;margin-left: 5px;margin-right: 15px"/>
         <input type="button" class="button-17" style="width:80px;height:30px" id="example" value="生成示例"/>
         <br/>
         <br/>
         <br/>
 
+
+    </form>
+</div>
+<div id="file" class="box">
+    <form>
+        <p class="subtitle">输出文件配置</p>
+        <br/>
+        <br/>
+
+        <label for="avatar">请选择输出目录:</label>
+
+        <input type="file" id="avatar" name="avatar">
+        <br/>
+        <br/>
         <input type="button" class="button-17" style="width:80px;height:30px" id="run" value="生成算式"/>
     </form>
 </div>
-
 <script>
     // Get form elements
     const range = document.getElementById("range");
