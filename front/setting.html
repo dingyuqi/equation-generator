@@ -11,7 +11,7 @@
         }
 
         h1 {
-            font-family:"Microsoft Yahei",serif;
+            font-family: "Microsoft Yahei", serif;
             text-align: center;
             color: white;
         }
@@ -33,14 +33,14 @@
         }
 
         label {
-            font-family:"Microsoft Yahei",serif;
+            font-family: "Microsoft Yahei", serif;
             display: inline-block;
             margin-bottom: 5px;
             vertical-align: middle;
         }
 
         input[type="text"] {
-            font-family:"Microsoft Yahei",serif;
+            font-family: "Microsoft Yahei", serif;
             display: inline-block;
             padding: 5px;
             width: 100%;
@@ -51,27 +51,27 @@
         select,
         input[type="number"],
         input[type="checkbox"] {
-            font-family:"Microsoft Yahei",serif;
+            font-family: "Microsoft Yahei", serif;
             display: inline-block;
             margin-right: 10px; /* 可选 */
         }
 
         .note {
-            font-family:"Microsoft Yahei",serif;
+            font-family: "Microsoft Yahei", serif;
             font-size: 15px;
             color: darkgray;
             margin-bottom: 5px;
         }
 
         .subtitle {
-            font-family:"Microsoft Yahei",serif;
+            font-family: "Microsoft Yahei", serif;
             font-size: 25px;
             color: #555555;
             margin-bottom: 5px;
         }
 
         .mini_title {
-            font-family:"Microsoft Yahei",serif;
+            font-family: "Microsoft Yahei", serif;
             font-size: 15px; /* 文字大小 */
             background-color: lightgray; /* 背景颜色 */
             border-radius: 5px;
@@ -226,14 +226,19 @@
         <br/>
         <br/>
 
-        <label for="avatar" style="font-family:serif;">请选择输出目录:</label>
+        <label for="avatar" style="font-family: 'Microsoft Yahei', serif;">请选择输出目录:</label>
 
-        <input type="file" id="avatar" name="avatar" style="font-family:serif;">
+        <input type="file" id="avatar" name="avatar" style="font-family: 'Microsoft Yahei', serif;">
         <br/>
         <br/>
-        <input type="button" class="button-17" style="width:80px;height:30px;font-family:serif" id="run" value="生成算式"/>
+        <input type="button" class="button-17" style="width:80px;height:30px;font-family:serif" id="run"
+               value="生成算式"/>
+
     </form>
 </div>
+
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+
 <script>
     // Get form elements
     const range = document.getElementById("range");
@@ -241,10 +246,11 @@
     const terms = document.getElementById("terms");
     const example = document.getElementById("exampleText");
     const exampleButton = document.getElementById("example");
-    const calculateButton = document.getElementById("calculate");
+    const calculateButton = document.getElementById("run");
+    const file = document.getElementById("avatar")
 
     // Calculate function
-    function calculate() {
+    function exampleCal() {
         const rangeValue = range.value;
         const min = 0;
         const max = parseInt(rangeValue);
@@ -277,11 +283,77 @@
         example.value = `${expression}`;
     }
 
+    function createXMLHTTPObject() {
+        var XMLhttpFactories = [//兼容不同浏览器和版本的创建函数数组
+            function () {
+                return new XMLHttpRequest()
+            },
+            function () {
+                return new ActiveXObject("Msxml2.XMLHTTP")
+            },
+            function () {
+                return new ActiveXObject("Msxml3.XMLHTTP")
+            },
+            function () {
+                return new ActiveXObject("Microsoft.XMLHTTP")
+            },
+        ];
+
+        var xmlhttp = false;
+        for (var i = 0; i < XMLhttpFactories.length; i++) {
+            try {
+                xmlhttp = XMLhttpFactories[i]();
+                break; //如果成功，则终止循环
+            } catch (e) {
+                continue; //如果异常，则继续使用下一个创建函数
+            }
+        }
+        return xmlhttp;
+    }
+
+    function run() {
+        console.log("==================")
+        const XHR = createXMLHTTPObject();
+        //装载result
+        const data = {"file_path": file.value};
+        // 配置请求
+        XHR.open('POST', 'http://127.0.0.1:5000/run', false);
+        // HTTP头
+        XHR.setRequestHeader('content-type', 'application/json;charset=utf-8');  //先open再设置请求头
+        // 发送请求
+        XHR.send(JSON.stringify(data));
+        console.log(data)
+        //定义接收到响应后的处理：每当 readyState 改变时，就会触发 onreadystatechange 事件
+        XHR.onreadystatechange = function () {
+            //若响应完成且请求成功
+            if (XHR.status === 200) {
+                alert("这是弹出框提示文本")
+            }
+        };
+
+    }
+    function run_test(){
+        const data = {"file_path": file.value};
+
+        const send_data = JSON.stringify(data);
+
+         $.ajax({
+                async:false,    // 这个需要写上
+                url: "http://127.0.0.1:5000/run",
+                type: "POST",
+                data: send_data,
+                dataType: "json",
+                success: function (result) { alert(result.name) }
+            })
+    }
+
     // Example button click event listener
-    exampleButton.addEventListener("click", calculate);
+    exampleButton.addEventListener("click", exampleCal);
 
     //Calculate button click event listener
-    calculateButton.addEventListener("click", calculate);
+    calculateButton.addEventListener("click", run_test);
+
+
 </script>
 </body>
 </html>
