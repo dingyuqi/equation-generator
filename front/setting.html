@@ -30,6 +30,7 @@
         }
 
         input[type="text"] {
+            display: inline-block;
             padding: 5px;
             width: 100%;
             box-sizing: border-box;
@@ -47,6 +48,12 @@
             font-size: 15px;
             color: darkgray;
             margin-bottom: 5px;
+        }
+
+        .box {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
         }
 
 
@@ -123,7 +130,7 @@
 </head>
 <body>
 <h1>算式生成配置</h1>
-<div id="calculator">
+<div id="calculator" class="box">
     <form>
         <label for="range">计算范围:</label>
         <select id="range">
@@ -171,7 +178,8 @@
         <br/>
 
         <label for="example">示例:</label>
-        <label for="exampleText"></label><input type="text" readonly="readonly" id="exampleText"/>
+        <label for="exampleText"></label><input type="text" readonly="readonly" id="exampleText"
+                                                style="width:180px;height:30px;margin-left: 5px;margin-right: 15px"/>
         <input type="button" class="button-17" style="width:80px;height:30px" id="example" value="生成示例"/>
         <br/>
         <br/>
