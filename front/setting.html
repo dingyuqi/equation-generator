@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/html" xmlns="">
+<meta name="renderer" content="ie-stand">
 <head>
     <title>Calculator Page</title>
     <meta charset="UTF-8">
@@ -227,8 +228,9 @@
         <br/>
 
         <label for="avatar" style="font-family: 'Microsoft Yahei', serif;">请选择输出目录:</label>
-
-        <input type="file" id="avatar" name="avatar" style="font-family: 'Microsoft Yahei', serif;">
+        <label for="avatar"></label><label for="filePath"></label><input type="text" readonly="readonly" id="filePath"
+                                                                         style="width:180px;height:20px;margin-left: 5px;margin-right: 15px;font-family:serif;"/>
+         <input type="button" class="button-17" style="width:80px;height:30px" id="avatar" value="选择路径"/>
         <br/>
         <br/>
         <input type="button" class="button-17" style="width:80px;height:30px;font-family:serif" id="run"
@@ -240,6 +242,14 @@
 <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
 
 <script>
+    window.alert = function (name) {
+        const iframe = document.createElement('IFRAME');
+        iframe.style.display = 'none';
+        iframe.setAttribute('src', 'data:text/plain,');
+        document.documentElement.appendChild(iframe);
+        window.frames[0].window.alert(name);
+        iframe.parentNode.removeChild(iframe);
+    };
     // Get form elements
     const range = document.getElementById("range");
     const checkboxes = document.getElementsByName("operator");
@@ -247,7 +257,8 @@
     const example = document.getElementById("exampleText");
     const exampleButton = document.getElementById("example");
     const calculateButton = document.getElementById("run");
-    const file = document.getElementById("avatar")
+    const fileButton = document.getElementById("avatar")
+    const fileText = document.getElementById("filePath")
 
     // Calculate function
     function exampleCal() {
@@ -284,21 +295,82 @@
     }
 
     function run_test() {
-        const data = {"file_path": file.value};
+        const rangeValue = range.value;
+        const min = 0;
+        const max = parseInt(rangeValue);
+        const selectedOperators = [];
+        checkboxes.forEach((checkbox) => {
+            if (checkbox.checked) {
+                selectedOperators.push(checkbox.value);
+            }
+        });
+        const numberOfTerms = parseInt(terms.value);
+
+        function getFilePath(input) {
+            if (input) {//input是<input type="file">Dom对象
+                if (window.navigator.userAgent.indexOf("MSIE") >= 1) {  //如果是IE
+                    input.select();
+                    input.blur();
+                    return document.selection.createRange().text;
+                } else if (window.navigator.userAgent.indexOf("Firefox") >= 1) {  //如果是火狐  {
+                    if (input.files) {
+                        return input.files.item(0).getAsDataURL();
+                    }
+                    return input.value;
+                }
+                return input.value;
+            }
+        }
+
+        const data = {
+            "dir_path": fileText.value,
+            "operator": selectedOperators,
+            "min": min,
+            "max": max,
+            "num_terms": numberOfTerms
+        };
 
         const send_data = JSON.stringify(data);
-        console.log(send_data)
+        try {
+            $.ajax({
+                async: false,
+                url: "/run",
+                type: "POST",
+                data: send_data,
+                dataType: "JSON",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    alert(data.msg)
+                },
+                error: function (data) {//ajax请求失败后触发的方法
+                    alert(data.msg)
+                }
+            })
+        } catch (err) {
+            alert(err)
+        }
 
-        $.ajax({
-            async: false,
-            url: "http://127.0.0.1:5000/run",
-            type: "POST",
-            data: send_data,
-            dataType: "json",
-            success: function (result) {
-                alert(result.values)
-            }
-        })
+    }
+
+    function getFile(){
+        try {
+            $.ajax({
+                async: false,
+                url: "/file",
+                type: "POST",
+                data:  JSON.stringify({}),
+                dataType: "JSON",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    fileText.value = data.data
+                },
+                error: function (data) {//ajax请求失败后触发的方法
+                    alert(data.msg)
+                }
+            })
+        } catch (err) {
+            alert(err)
+        }
     }
 
     // Example button click event listener
@@ -306,6 +378,9 @@
 
     //Calculate button click event listener
     calculateButton.addEventListener("click", run_test);
+
+    //File button click event listener
+    fileButton.addEventListener("click", getFile);
 
 
 </script>

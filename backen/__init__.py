@@ -2,6 +2,8 @@ import sys
 from PySide2 import QtCore, QtWidgets, QtGui, QtWebEngineWidgets
 import socket
 
+from PySide2.QtWidgets import QFileDialog
+
 
 class ApplicationThread(QtCore.QThread):
     def __init__(self, application, port=5000):
@@ -59,4 +61,3 @@ def init_gui(application, icon, port, width=800, height=600,
     window.show()
     # 进入程序的主循环直到exit()被调用
     return qtapp.exec_()
-
