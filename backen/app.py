@@ -23,7 +23,6 @@ def greet():
 def run():
     if request.method == "POST":
         data = json.loads(request.get_data())
-        print(data)
         if data["dir_path"]:  # 判断是否为空
             dir_path = data["dir_path"]
             operator = data["operator"]
@@ -55,7 +54,6 @@ def open_file():
             directory1 = QFileDialog.getExistingDirectory(self,
                                                           "选取文件夹",
                                                           "./")  # 起始路径
-            print(directory1)
             return directory1
 
     myshow = MyWindow()
