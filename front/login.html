@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome Page</title>
+    <style>
+        body {
+            background-image: url('./resource/blue_white.svg');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+        }
+
+        h1 {
+            font-family:"Microsoft Yahei",serif;
+            color: white;
+            text-align: center;
+            margin-top: 10%;
+            font-size: 60px;
+        }
+
+        h2 {
+            font-family:"Microsoft Yahei",serif;
+            color: white;
+            text-align: center;
+            font-size: 30px;
+            margin-top: 5%;
+            margin-bottom: 3%;
+        }
+
+
+        #circle-btn {
+            display: block;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .btn-container {
+            position: relative;
+        }
+
+        button {
+            border: 0;
+            border-radius: 50px;
+            color: white;
+            background: #5f55af;
+            padding: 15px 20px 16px 20px;
+            text-transform: uppercase;
+            text-align: center;
+            background: linear-gradient(to right, #f72585 10%, #5f55af 50%);
+            background-size: 200% 100%;
+            background-position: right bottom;
+            transition: all 0.5s ease;
+        }
+
+        svg {
+            background: #f72585;
+            padding: 8px;
+            border-radius: 50%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        button:hover {
+            background-position: left bottom;
+        }
+    </style>
+</head>
+<body>
+<h1>欢迎!</h1>
+<h2>江老师, 今天又是全新的开始呀</h2>
+<div align="center">
+    <button class="button" onclick='location.href=("setting.html")'>Enter</button>
+</div>
+
+<script>
+    const button = document.querySelector('.button');
+
+    button.addEventListener('mouseover', function () {
+        button.style.transform = 'scale(1.1)';
+    });
+
+    button.addEventListener('mouseout', function () {
+        button.style.transform = 'scale(1)';
+    });
+
+</script>
+</body>
+</html>

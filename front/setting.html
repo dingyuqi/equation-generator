@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html" xmlns="">
+<meta name="renderer" content="ie-stand">
+<head>
+    <title>Calculator Page</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            background-image: url("./resource/blue_white.svg");
+            background-size: cover;
+            background-position: center center;
+        }
+
+        h1 {
+            font-family: "Microsoft Yahei", serif;
+            text-align: center;
+            color: white;
+        }
+
+        #calculator {
+            width: 500px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        #file {
+            width: 500px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        label {
+            font-family: "Microsoft Yahei", serif;
+            display: inline-block;
+            margin-bottom: 5px;
+            vertical-align: middle;
+        }
+
+        input[type="text"] {
+            font-family: "Microsoft Yahei", serif;
+            display: inline-block;
+            padding: 5px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        select,
+        input[type="number"],
+        input[type="checkbox"] {
+            font-family: "Microsoft Yahei", serif;
+            display: inline-block;
+            margin-right: 10px; /* 可选 */
+        }
+
+        .note {
+            font-family: "Microsoft Yahei", serif;
+            font-size: 15px;
+            color: darkgray;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-family: "Microsoft Yahei", serif;
+            font-size: 25px;
+            color: #555555;
+            margin-bottom: 5px;
+        }
+
+        .mini_title {
+            font-family: "Microsoft Yahei", serif;
+            font-size: 15px; /* 文字大小 */
+            background-color: lightgray; /* 背景颜色 */
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        .box {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+        }
+
+
+        /* CSS */
+        .button-17 {
+            align-items: center;
+            appearance: none;
+            background-color: #fff;
+            border-radius: 8px;
+            border-style: none;
+            box-shadow: rgba(0, 0, 0, .2) 0 3px 5px -1px, rgba(0, 0, 0, .14) 0 6px 10px 0, rgba(0, 0, 0, .12) 0 1px 18px 0;
+            box-sizing: border-box;
+            color: #3c4043;
+            cursor: pointer;
+            display: inline-flex;
+            fill: currentcolor;
+            font-family: serif;
+            font-size: 14px;
+            font-weight: 500;
+            height: 48px;
+            justify-content: center;
+            letter-spacing: .25px;
+            line-height: normal;
+            max-width: 100%;
+            overflow: visible;
+            padding: 2px 24px;
+            position: relative;
+            text-align: center;
+            text-transform: none;
+            transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1), opacity 15ms linear 30ms, transform 270ms cubic-bezier(0, 0, .2, 1) 0ms;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            width: auto;
+            will-change: transform, opacity;
+            z-index: 0;
+        }
+
+        .button-17:hover {
+            background: #F6F9FE;
+            color: #174ea6;
+        }
+
+        .button-17:active {
+            box-shadow: 0 4px 4px 0 rgb(60 64 67 / 30%), 0 8px 12px 6px rgb(60 64 67 / 15%);
+            outline: none;
+        }
+
+        .button-17:focus {
+            outline: none;
+            border: 2px solid #4285f4;
+        }
+
+        .button-17:not(:disabled) {
+            box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
+        }
+
+        .button-17:not(:disabled):hover {
+            box-shadow: rgba(60, 64, 67, .3) 0 2px 3px 0, rgba(60, 64, 67, .15) 0 6px 10px 4px;
+        }
+
+        .button-17:not(:disabled):focus {
+            box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
+        }
+
+        .button-17:not(:disabled):active {
+            box-shadow: rgba(60, 64, 67, .3) 0 4px 4px 0, rgba(60, 64, 67, .15) 0 8px 12px 6px;
+        }
+
+        .button-17:disabled {
+            box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
+        }
+    </style>
+</head>
+<body>
+<h1>算式生成配置</h1>
+<div id="calculator" class="box">
+    <form>
+        <p class="subtitle">算式的相关配置</p>
+        <br/><br/>
+        <label for="range" class="mini_title">计算范围</label>
+        <select id="range" style="margin-left: 5px">
+            <option value="10">10以内</option>
+            <option value="100">100以内</option>
+            <option value="1000">1000以内</option>
+        </select>
+
+        <br/>
+        <br/>
+        <br/>
+
+
+        <p class="mini_title" style="width: 60px">运算符号</p>
+        <p class="note">请选择生成算式中包含的运算符号 (可多选)</p>
+        <label>
+            <input type="checkbox" checked="checked" name="operator" value="+" id="add"/>
+
+        </label>
+        <label for="add">加法 (+)</label>
+        <br/>
+
+        <label>
+            <input type="checkbox" checked="checked" name="operator" value="-" id="subtract"/>
+        </label>
+        <label for="subtract">减法 (-)</label>
+        <br/>
+        <label>
+            <input type="checkbox" checked="checked" name="operator" value="×" id="multiply"/>
+        </label>
+        <label for="multiply">乘法 (×)</label>
+        <br/>
+        <label>
+            <input type="checkbox" checked="checked" name="operator" value="÷" id="divide"/>
+        </label>
+        <label for="divide">除法 (÷)</label>
+
+        <br/>
+        <br/>
+        <br/>
+
+        <label for="terms" class="mini_title">项数量</label>
+        <input type="number" id="terms" min="2" max="10" value="2" style="margin-left: 5px"/>
+
+        <br/>
+        <br/>
+        <br/>
+
+        <label for="example" class="mini_title">示例</label>
+        <label for="exampleText"></label><input type="text" readonly="readonly" id="exampleText"
+                                                style="width:180px;height:20px;margin-left: 5px;margin-right: 15px;font-family:serif;"/>
+        <input type="button" class="button-17" style="width:80px;height:30px" id="example" value="生成示例"/>
+        <br/>
+        <br/>
+        <br/>
+
+
+    </form>
+</div>
+<div id="file" class="box">
+    <form>
+        <p class="subtitle">输出文件配置</p>
+        <br/>
+        <br/>
+
+        <label for="avatar" style="font-family: 'Microsoft Yahei', serif;">请选择输出目录:</label>
+        <label for="avatar"></label><label for="filePath"></label><input type="text" readonly="readonly" id="filePath"
+                                                                         style="width:180px;height:20px;margin-left: 5px;margin-right: 15px;font-family:serif;"/>
+         <input type="button" class="button-17" style="width:80px;height:30px" id="avatar" value="选择路径"/>
+        <br/>
+        <br/>
+        <input type="button" class="button-17" style="width:80px;height:30px;font-family:serif" id="run"
+               value="生成算式"/>
+
+    </form>
+</div>
+
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+
+<script>
+    window.alert = function (name) {
+        const iframe = document.createElement('IFRAME');
+        iframe.style.display = 'none';
+        iframe.setAttribute('src', 'data:text/plain,');
+        document.documentElement.appendChild(iframe);
+        window.frames[0].window.alert(name);
+        iframe.parentNode.removeChild(iframe);
+    };
+    // Get form elements
+    const range = document.getElementById("range");
+    const checkboxes = document.getElementsByName("operator");
+    const terms = document.getElementById("terms");
+    const example = document.getElementById("exampleText");
+    const exampleButton = document.getElementById("example");
+    const calculateButton = document.getElementById("run");
+    const fileButton = document.getElementById("avatar")
+    const fileText = document.getElementById("filePath")
+
+    // Calculate function
+    function exampleCal() {
+        const rangeValue = range.value;
+        const min = 0;
+        const max = parseInt(rangeValue);
+        const selectedOperators = [];
+
+        checkboxes.forEach((checkbox) => {
+            if (checkbox.checked) {
+                selectedOperators.push(checkbox.value);
+            }
+        });
+        const numberOfTerms = parseInt(terms.value);
+
+        let expression = "";
+
+        for (let i = 0; i < numberOfTerms; i++) {
+            // Generate number
+            const randomNum = Math.floor(Math.random() * (max - min + 1) + min);
+
+            // Generate operator
+            const randomOperator =
+                selectedOperators[Math.floor(Math.random() * selectedOperators.length)];
+            if (i !== numberOfTerms - 1) {
+                // Add to expression
+                expression += `${randomNum} ${randomOperator} `;
+            } else {
+                expression += `${randomNum} =`
+            }
+        }
+        // Display expression and answer
+        example.value = `${expression}`;
+    }
+
+    function run_test() {
+        const rangeValue = range.value;
+        const min = 0;
+        const max = parseInt(rangeValue);
+        const selectedOperators = [];
+        checkboxes.forEach((checkbox) => {
+            if (checkbox.checked) {
+                selectedOperators.push(checkbox.value);
+            }
+        });
+        const numberOfTerms = parseInt(terms.value);
+
+        function getFilePath(input) {
+            if (input) {//input是<input type="file">Dom对象
+                if (window.navigator.userAgent.indexOf("MSIE") >= 1) {  //如果是IE
+                    input.select();
+                    input.blur();
+                    return document.selection.createRange().text;
+                } else if (window.navigator.userAgent.indexOf("Firefox") >= 1) {  //如果是火狐  {
+                    if (input.files) {
+                        return input.files.item(0).getAsDataURL();
+                    }
+                    return input.value;
+                }
+                return input.value;
+            }
+        }
+
+        const data = {
+            "dir_path": fileText.value,
+            "operator": selectedOperators,
+            "min": min,
+            "max": max,
+            "num_terms": numberOfTerms
+        };
+
+        const send_data = JSON.stringify(data);
+        try {
+            $.ajax({
+                async: false,
+                url: "/run",
+                type: "POST",
+                data: send_data,
+                dataType: "JSON",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    alert(data.msg)
+                },
+                error: function (data) {//ajax请求失败后触发的方法
+                    alert(data.msg)
+                }
+            })
+        } catch (err) {
+            alert(err)
+        }
+
+    }
+
+    function getFile(){
+        try {
+            $.ajax({
+                async: false,
+                url: "/file",
+                type: "POST",
+                data:  JSON.stringify({}),
+                dataType: "JSON",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    fileText.value = data.data
+                },
+                error: function (data) {//ajax请求失败后触发的方法
+                    alert(data.msg)
+                }
+            })
+        } catch (err) {
+            alert(err)
+        }
+    }
+
+    // Example button click event listener
+    exampleButton.addEventListener("click", exampleCal);
+
+    //Calculate button click event listener
+    calculateButton.addEventListener("click", run_test);
+
+    //File button click event listener
+    fileButton.addEventListener("click", getFile);
+
+
+</script>
+</body>
+</html>
